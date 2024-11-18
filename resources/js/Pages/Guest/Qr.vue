@@ -42,5 +42,13 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 </template>
 
 <style scoped>
+::-webkit-scrollbar { /* chrome based */
+    width: 0px; /* ширина scrollbar'a */
+    background: transparent; /* опционально */
+}
 
+html {
+    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
+}
 </style>
