@@ -4,14 +4,14 @@ import {Head} from "@inertiajs/vue3";
 </script>
 
 <template>
-    <Head title="Dashboard"/>
+    <Head title="Панель управления"/>
  <AdminLayout>
      <div class="border-b-2 pb-4">
          <span class="text-2xl">12 Человек в очереди</span>
      </div>
      <div class="flex flex-row gap-4 mt-8">
          <div class="basis-1/5">
-             <div class="flex flex-col justify-center items-center border h-full rounded-lg text-center p-4">
+             <div class="flex flex-col justify-center items-center bg-slate-200 border h-full rounded-lg text-center p-4">
                  <div>Текущий номер</div>
                  <div class="text-4xl font-bold mt-8">24</div>
                  <div class="mt-8">
@@ -21,7 +21,7 @@ import {Head} from "@inertiajs/vue3";
          </div>
          <div class="basis-4/5 grid grid-cols-5 gap-4 text-xl font-bold overflow-y-auto rounded-lg h-72">
              <!-- Пример элементов списка -->
-             <div v-for="n in 12" :key="n" class="flex flex-col justify-center items-center p-4 rounded-lg bg-gray-100 h-32">
+             <div v-for="n in 12" :key="n" class="flex flex-col justify-center items-center p-4 rounded-lg border bg-gray-100 h-32">
                  <div class="flex flex-row gap-4 justify-center items-center content-center">
                      <span>{{ n }}</span>
                      <font-awesome-icon :icon="['fas', 'right-long']" />
@@ -40,6 +40,19 @@ import {Head} from "@inertiajs/vue3";
          <div class="flex gap-4">
              <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Очистить очередь</button>
              <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">Закрыть очередь</button>
+         </div>
+     </div>
+     <div class="border-b-2 pb-4 mt-8 mb-4">
+         <span class="text-2xl">Выбор стола</span>
+     </div>
+     <div class="grid grid-cols-5 gap-4">
+         <div v-for="n in 4" :key="n" class="p-4 box-border rounded-lg bg-gray-100 border">
+             <div class="text-2xl text-center">
+             <span>Стол №{{ n }}</span>
+             </div>
+             <div class="text-lg text-center box-border mt-8">
+                 <button class="bg-green-600 px-4 py-2 box-border rounded-lg text-white">Выбрать стол</button>
+             </div>
          </div>
      </div>
  </AdminLayout>
