@@ -54,7 +54,7 @@ const {t, locale} = useI18n();
              <span>Стол №{{ n }}</span>
              </div>
              <div class="text-lg text-center box-border mt-8">
-                 <button class="bg-green-600 px-4 py-2 box-border rounded-lg text-white">{{ t('main.selectTable') }}</button>
+                 <button class="bg-green-600 hover:bg-green-700 px-4 py-2 box-border rounded-lg text-white">{{ t('main.selectTable') }}</button>
              </div>
          </div>
      </div>
