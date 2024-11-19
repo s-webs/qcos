@@ -1,7 +1,8 @@
 <script setup>
 import {Head} from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-
+import { useI18n } from 'vue-i18n';
+const { t, locale } = useI18n();
 </script>
 
 <template>
@@ -34,7 +35,7 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
                     <img class="h-64" src="/images/qr_test.png" alt="">
                 </div>
                 <div class="text-center box-border mt-8">
-                    <span class="text-2xl font-bold">Отсканируйте для выбора категории на мобильном устройстве</span>
+                    <span class="text-2xl font-bold">{{ t('main.welcomeScan') }}</span>
                 </div>
             </div>
         </div>
@@ -42,13 +43,13 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 </template>
 
 <style scoped>
-::-webkit-scrollbar { /* chrome based */
-    width: 0px; /* ширина scrollbar'a */
-    background: transparent; /* опционально */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 html {
-    -ms-overflow-style: none; /* IE 10+ */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>

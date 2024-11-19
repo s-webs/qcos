@@ -1,5 +1,23 @@
 <script setup>
+import {useI18n} from 'vue-i18n';
+import {computed} from "vue";
 
+const {t, locale} = useI18n();
+
+const languages = {
+    kz: 'KZ',
+    ru: 'RU'
+};
+const currentLanguage = computed(() => locale.value);
+
+const changeLanguage = (lang) => {
+    locale.value = lang;
+    localStorage.setItem('language', lang);
+};
+
+if (localStorage.getItem('language')) {
+    locale.value = localStorage.getItem('language');
+}
 </script>
 
 <template>
@@ -9,9 +27,9 @@
                 <img src="/images/logo.webp" alt="Logo" style="width: 80px;">
             </div>
             <div class="flex flex-row gap-4 text-2xl">
-                <span class="p-4 box-border bg-white rounded-lg">KZ</span>
-                <span class="p-4 box-border bg-white rounded-lg">RU</span>
-                <span class="p-4 box-border bg-white rounded-lg">EN</span>
+                <button v-for="(lang, key) in languages" @click="changeLanguage(key)"
+                        class="p-4 box-border bg-white rounded-lg">{{ lang }}
+                </button>
             </div>
         </div>
         <div class="mt-4 flex-grow p-4 overflow-hidden">

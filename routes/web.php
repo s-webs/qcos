@@ -1,35 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/', [\App\Http\Controllers\GuestController::class, 'terminal'])->name('terminal');
+Route::get('/monitoring', [\App\Http\Controllers\GuestController::class, 'monitoring'])->name('monitoring');
 
-Route::get('/', function () {
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-    return Inertia::render('Guest/Qr');
-});
-
-Route::get('/monitoring', function () {
-    return Inertia::render('Guest/Monitoring');
-});
 
 Route::get('dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+Route::get('category', [\App\Http\Controllers\AdminController::class, 'category'])->name('category');
+Route::get('tables', [\App\Http\Controllers\AdminController::class, 'tables'])->name('tables');
 
 //Route::middleware([
 //    'auth:sanctum',
