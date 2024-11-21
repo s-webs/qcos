@@ -2,6 +2,7 @@ export default {
     add: 'Добавить',
     edit: 'Редактировать',
     delete: 'Удалить',
+    cancel: 'Отмена',
 
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Отсканируйте для выбора категории на мобильном устройстве',
@@ -29,6 +30,9 @@ export default {
     categoryInKz: 'Категория на казахском',
     categoryInRu: 'Категория на русском',
     categoryList: 'Список категорий',
+    areYouSure: 'Вы уверены?',
+
+
 
 
 

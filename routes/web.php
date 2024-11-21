@@ -8,6 +8,7 @@ Route::get('/monitoring', [\App\Http\Controllers\GuestController::class, 'monito
 
 Route::get('dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
 Route::get('category', [\App\Http\Controllers\AdminController::class, 'category'])->name('category');
+Route::post('category', [\App\Http\Controllers\AdminController::class, 'addCategory'])->name('addCategory');
 Route::get('tables', [\App\Http\Controllers\AdminController::class, 'tables'])->name('tables');
 
 //Route::middleware([

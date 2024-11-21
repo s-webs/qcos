@@ -2,6 +2,7 @@ export default {
     add: 'Қосу',
     edit: 'Өңдеу',
     delete: 'Жою',
+    cancel: 'Бас тарту',
 
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Мобильді құрылғыда санатты таңдау үшін сканерлеңіз',
@@ -28,5 +29,6 @@ export default {
     categoryInKz: 'Қазақ тіліндегі санат',
     categoryInRu: 'Орыс тіліндегі санат',
     categoryList: 'Санаттар тізімі',
+    areYouSure: 'Сіз сенімдісіз бе?',
 
 }
