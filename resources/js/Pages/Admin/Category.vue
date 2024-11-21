@@ -1,9 +1,10 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {Head, useForm} from "@inertiajs/vue3";
+import {Head, router, useForm} from "@inertiajs/vue3";
 import {useI18n} from "vue-i18n";
 import ModalAccept from "@/Components/ModalAccept.vue";
 import {ref} from "vue";
+import ModalEditCategory from "@/Components/ModalEditCategory.vue";
 
 const {t, locale} = useI18n();
 
@@ -12,23 +13,33 @@ const props = defineProps({
     flash: Object,
 })
 
+const isModalAcceptVisible = ref(false);
+const currentId = ref(null)
+
 const form = useForm({
     name_kz: null,
     name_ru: null
 })
 
 const addCategory = () => {
-    form.post(route('addCategory'))
+    form.post(route('addCategory'), {
+        onSuccess: () => {
+            form.reset();
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
 }
 
-const isModalAcceptVisible = ref(false);
-
-const openModalAccept = () => {
+const openModalAccept = (id) => {
     isModalAcceptVisible.value = true;
+    currentId.value = id
 };
 
 const handleModalAccept = (value) => {
     console.log('Accepted:', value);
+    router.delete(route('deleteCategory', currentId.value))
 };
 
 const handleModalAcceptClose = () => {
@@ -46,6 +57,8 @@ const handleModalAcceptClose = () => {
                          :action="t('main.delete')"
                          @accept="handleModalAccept"
                          @close="handleModalAcceptClose"/>
+
+<!--            <ModalEditCategory action="Обновить"/>-->
         </div>
         <div class="flex flex-col h-full">
             <div v-if="flash && flash.message" class="bg-green-500 text-white p-4 rounded-lg mb-4">
@@ -91,7 +104,8 @@ const handleModalAcceptClose = () => {
                         <button class="bg-green-500 py-2 px-4 rounded-lg hover:bg-green-600 text-white">
                             {{ t('main.edit') }}
                         </button>
-                        <button @click="openModalAccept" class="bg-red-500 py-2 px-4 rounded-lg hover:bg-red-600 text-white">{{
+                        <button @click="openModalAccept(category.id)"
+                                class="bg-red-500 py-2 px-4 rounded-lg hover:bg-red-600 text-white">{{
                                 t('main.delete')
                             }}
                         </button>

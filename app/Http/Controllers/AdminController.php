@@ -32,6 +32,12 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Категория успешно добавлена!');
     }
 
+    public function deleteCategory($id)
+    {
+        $category = Category::query()->findOrFail($id);
+        $category->delete();
+    }
+
     public function tables()
     {
         return Inertia::render('Admin/Tables');
