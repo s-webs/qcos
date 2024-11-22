@@ -31,9 +31,12 @@ export default {
     categoryInRu: 'Категория на русском',
     categoryList: 'Список категорий',
     areYouSure: 'Вы уверены?',
+    update: 'Обновить',
 
-
-
-
-
+    // ADMIN TABLES SCREEN
+    addNewTable: 'Добавление нового стола',
+    tableInKz: 'Название стола на казахском',
+    tableInRu: 'Название стола на русском',
+    listTables: 'Список столов',
+    numberTable: 'Номер стола',
 }

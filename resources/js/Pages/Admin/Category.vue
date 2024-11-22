@@ -13,14 +13,21 @@ const props = defineProps({
     flash: Object,
 })
 
-const isModalAcceptVisible = ref(false);
+const isModalAcceptVisible = ref(false)
+const isModalEditVisible = ref(false)
 const currentId = ref(null)
+const editedCategory = ref(null)
+
+const localizedCategoryName = (category) => {
+    return category[`name_${locale.value}`] || category.name_ru; // Фоллбек на name_ru
+};
 
 const form = useForm({
     name_kz: null,
     name_ru: null
 })
 
+// ADD CATEGORY
 const addCategory = () => {
     form.post(route('addCategory'), {
         onSuccess: () => {
@@ -32,6 +39,7 @@ const addCategory = () => {
     });
 }
 
+// DELETE CATEGORY
 const openModalAccept = (id) => {
     isModalAcceptVisible.value = true;
     currentId.value = id
@@ -40,10 +48,36 @@ const openModalAccept = (id) => {
 const handleModalAccept = (value) => {
     console.log('Accepted:', value);
     router.delete(route('deleteCategory', currentId.value))
+    currentId.value = null
 };
 
 const handleModalAcceptClose = () => {
     isModalAcceptVisible.value = false;
+};
+
+// EDIT CATEGORY
+const openModalEdit = (category) => {
+    isModalEditVisible.value = true;
+    editedCategory.value = category
+};
+
+const handleModalEdit = (updatedCategory) => {
+    if (editedCategory.value) {
+        router.patch(route('updateCategory', editedCategory.value.id), updatedCategory, {
+            onSuccess: () => {
+                console.log('Категория обновлена');
+            },
+            onError: (errors) => {
+                console.error(errors);
+            }
+        });
+    }
+    editedCategory.value = null;
+    isModalEditVisible.value = false;
+};
+
+const handleModalEditClose = () => {
+    isModalEditVisible.value = false;
 };
 
 </script>
@@ -58,12 +92,14 @@ const handleModalAcceptClose = () => {
                          @accept="handleModalAccept"
                          @close="handleModalAcceptClose"/>
 
-<!--            <ModalEditCategory action="Обновить"/>-->
+            <ModalEditCategory :show="isModalEditVisible"
+                               :action="t('main.update')"
+                               :category="editedCategory"
+                               @accept="handleModalEdit"
+                               @close="handleModalEditClose"
+            />
         </div>
         <div class="flex flex-col h-full">
-            <div v-if="flash && flash.message" class="bg-green-500 text-white p-4 rounded-lg mb-4">
-                {{ flash.message }}
-            </div>
             <div>
                 <div class="border-b-2 pb-4">
                     <span class="text-2xl">{{ t('main.creatingCategory') }}</span>
@@ -97,11 +133,12 @@ const handleModalAcceptClose = () => {
                 <span class="text-2xl">{{ t('main.categoryList') }}</span>
             </div>
             <div class="flex-1 overflow-y-auto mt-4"> <!-- Используем flex-1 для заполнения свободного пространства -->
-                <div v-for="category in categories" :key="category.id"
+                <div v-for="(category, index) in categories" :key="category.id"
                      class="flex flex-row justify-between items-center mt-4 border p-2 rounded-lg">
-                    <div class="text-xl">ID-{{ category.id }}. {{ category.name_ru }}</div>
+                    <div class="text-xl">{{ index+1 }}. {{ localizedCategoryName(category) }}</div>
                     <div class="flex flex-row gap-4">
-                        <button class="bg-green-500 py-2 px-4 rounded-lg hover:bg-green-600 text-white">
+                        <button @click="openModalEdit(category)"
+                                class="bg-green-500 py-2 px-4 rounded-lg hover:bg-green-600 text-white">
                             {{ t('main.edit') }}
                         </button>
                         <button @click="openModalAccept(category.id)"

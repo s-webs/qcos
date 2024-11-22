@@ -4,6 +4,14 @@ import {Head, useForm} from "@inertiajs/vue3";
 import {useI18n} from "vue-i18n";
 
 const {t, locale} = useI18n();
+
+const props = defineProps({
+    tables: Array
+})
+
+const localizedTableName = (table) => {
+    return table[`name_${locale.value}`] || table.name_ru;
+};
 </script>
 
 <template>
@@ -49,9 +57,9 @@ const {t, locale} = useI18n();
          <span class="text-2xl">{{ t('main.selectionTable') }}</span>
      </div>
      <div class="grid grid-cols-5 gap-4">
-         <div v-for="n in 4" :key="n" class="p-4 box-border rounded-lg bg-gray-100 border">
+         <div v-for="table in tables" :key="table.id" class="p-4 box-border rounded-lg bg-gray-100 border">
              <div class="text-2xl text-center">
-             <span>Стол №{{ n }}</span>
+             <span>{{ localizedTableName(table) }}</span>
              </div>
              <div class="text-lg text-center box-border mt-8">
                  <button class="bg-green-600 hover:bg-green-700 px-4 py-2 box-border rounded-lg text-white">{{ t('main.selectTable') }}</button>

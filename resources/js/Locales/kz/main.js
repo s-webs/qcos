@@ -30,5 +30,12 @@ export default {
     categoryInRu: 'Орыс тіліндегі санат',
     categoryList: 'Санаттар тізімі',
     areYouSure: 'Сіз сенімдісіз бе?',
+    update: 'Жаңарту',
 
+    // ADMIN TABLES SCREEN
+    addNewTable: 'Жаңа үстел қосу',
+    tableInKz: 'Үстел атауы қазақ тілінде',
+    tableInRu: 'Орыс тіліндегі үстел атауы',
+    listTables: 'Кестелер тізімі',
+    numberTable: 'Үстел нөмірі',
 }

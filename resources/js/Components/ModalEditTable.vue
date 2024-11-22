@@ -6,7 +6,7 @@ import { useForm } from '@inertiajs/vue3';
 const { t } = useI18n();
 
 const props = defineProps({
-    category: Object,
+    table: Object,
     action: String,
     show: Boolean,
 });
@@ -16,16 +16,18 @@ const isOpen = computed(() => props.show);
 
 const form = useForm({
     name_kz: '',
-    name_ru: ''
+    name_ru: '',
+    number: ''
 });
 
-// Обновляем форму при изменении props.category
+// Обновляем форму при изменении props.table
 watch(
-    () => props.category,
-    (newCategory) => {
-        if (newCategory) {
-            form.name_kz = newCategory.name_kz;
-            form.name_ru = newCategory.name_ru;
+    () => props.table,
+    (newtable) => {
+        if (newtable) {
+            form.name_kz = newtable.name_kz;
+            form.name_ru = newtable.name_ru;
+            form.number = newtable.number;
         }
     },
     { immediate: true } // Обновляем форму сразу после загрузки
@@ -54,18 +56,25 @@ const onClose = () => {
                 <div>
                     <div class="">
                         <label class="block mb-2" for="grid-name-kz">
-                            {{ t('main.categoryInKz') }}
+                            {{ t('main.tableInKz') }}
                             <input
                                 v-model="form.name_kz"
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-name-kz" type="text" placeholder="KZ">
                         </label>
                         <label class="block mb-2" for="grid-name-ru">
-                            {{ t('main.categoryInRu') }}
+                            {{ t('main.tableInRu') }}
                             <input
                                 v-model="form.name_ru"
                                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-name-ru" type="text" placeholder="RU">
+                        </label>
+                        <label class="block mb-2" for="grid-number">
+                            {{ t('main.tableInRu') }}
+                            <input
+                                v-model="form.number"
+                                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                id="grid-number" type="text" placeholder="NUM">
                         </label>
                     </div>
                     <div class="p-3 mt-2 text-center space-x-4 md:block">
