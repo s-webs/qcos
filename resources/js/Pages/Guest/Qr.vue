@@ -21,7 +21,7 @@ const generateUrl = ref(null)
 
 const showQRCode = (category) => {
     selectedCategory.value = category;
-    generateUrl.value = `${window.location.origin}/ticket/create/${selectedCategory.value.id}/${locale.value}`
+    generateUrl.value = `${window.location.origin}/ticket/${selectedCategory.value.id}/${locale.value}`
     isModalVisible.value = true;
 };
 
