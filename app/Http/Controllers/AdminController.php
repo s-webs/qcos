@@ -52,8 +52,11 @@ class AdminController extends Controller
 
     public function tables()
     {
+        $categories = Category::all();
         $tables = Table::query()->orderBy('number', 'asc')->get();
-        return Inertia::render('Admin/Tables', compact('tables'));
+        $selectedCategories = $tables->first()?->categories->pluck('id')->toArray() ?? [];
+        dd($selectedCategories);
+        return Inertia::render('Admin/Tables', compact('tables', 'categories'));
     }
 
     public function createTable(Request $request)
@@ -84,4 +87,14 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Стол успешно обновлен!');
     }
 
+    public function updateCategories(Request $request, Table $table)
+    {
+        $validated = $request->validate([
+            'categories' => 'array',
+            'categories.*' => 'exists:categories,id',
+        ]);
+
+        $table->categories()->sync($validated['categories']);
+        return response()->json(['message' => 'Categories updated successfully']);
+    }
 }

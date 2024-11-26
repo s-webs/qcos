@@ -84,13 +84,13 @@ if (localStorage.getItem('language')) {
 </template>
 
 <style scoped>
-::-webkit-scrollbar { /* chrome based */
-    width: 0px; /* ширина scrollbar'a */
-    background: transparent; /* опционально */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 html {
-    -ms-overflow-style: none; /* IE 10+ */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>

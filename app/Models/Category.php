@@ -12,4 +12,9 @@ class Category extends Model
         'name_kz',
         'name_en',
     ];
+
+    public function tables(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Table::class);
+    }
 }

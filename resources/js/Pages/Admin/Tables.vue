@@ -11,6 +11,7 @@ const {t, locale} = useI18n();
 
 const props = defineProps({
     tables: Array,
+    categories: Array,
     flash: Object,
 })
 
@@ -95,6 +96,7 @@ const handleModalEditClose = () => {
         :show="isModalEditVisible"
         :action="t('main.update')"
         :table="editedTable"
+        :categories="categories"
         @accept="handleModalEdit"
         @close="handleModalEditClose"
     />

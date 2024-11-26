@@ -1,12 +1,18 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useForm } from '@inertiajs/vue3';
+import {ref, computed, watch} from 'vue';
+import {useI18n} from 'vue-i18n';
+import {useForm} from '@inertiajs/vue3';
 
-const { t } = useI18n();
+const {t, locale} = useI18n();
+
+const localizedCategoryName = (category) => {
+    return category[`name_${locale.value}`] || category.name_ru;
+};
 
 const props = defineProps({
     table: Object,
+    categories: Array,
+    selectedCategories: Array,
     action: String,
     show: Boolean,
 });
@@ -17,7 +23,8 @@ const isOpen = computed(() => props.show);
 const form = useForm({
     name_kz: '',
     name_ru: '',
-    number: ''
+    number: '',
+    selectedCategories: []
 });
 
 // Обновляем форму при изменении props.table
@@ -30,11 +37,21 @@ watch(
             form.number = newtable.number;
         }
     },
-    { immediate: true } // Обновляем форму сразу после загрузки
+    {immediate: true} // Обновляем форму сразу после загрузки
 );
 
+// Синхронизация выбранных категорий с формой
+watch(
+    () => props.selectedCategories,
+    (newSelectedCategories) => {
+        form.selectedCategories = [...newSelectedCategories];
+    },
+    { immediate: true } // Обновляем локальное состояние при инициализации
+);
+
+
 const onAccept = () => {
-    emit('accept', { ...form }); // Передаём форму в событии
+    emit('accept', {...form, categories: form.selectedCategories}); // Передаём форму в событии
     emit('close');
 };
 
@@ -51,31 +68,48 @@ const onClose = () => {
                 class="absolute bg-black opacity-70 inset-0 z-0"
             ></div>
             <div
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-3 mx-auto my-auto rounded-xl shadow-lg bg-white"
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl p-3 mx-auto my-auto rounded-xl shadow-lg bg-white"
             >
                 <div>
-                    <div class="">
-                        <label class="block mb-2" for="grid-name-kz">
-                            {{ t('main.tableInKz') }}
-                            <input
-                                v-model="form.name_kz"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                id="grid-name-kz" type="text" placeholder="KZ">
-                        </label>
-                        <label class="block mb-2" for="grid-name-ru">
-                            {{ t('main.tableInRu') }}
-                            <input
-                                v-model="form.name_ru"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                id="grid-name-ru" type="text" placeholder="RU">
-                        </label>
-                        <label class="block mb-2" for="grid-number">
-                            {{ t('main.tableInRu') }}
-                            <input
-                                v-model="form.number"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                id="grid-number" type="text" placeholder="NUM">
-                        </label>
+                    <div class="flex flex-row gap-4">
+                        <div class="basis-2/5">
+                            <label class="block mb-2" for="grid-name-kz">
+                                {{ t('main.tableInKz') }}
+                                <input
+                                    v-model="form.name_kz"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    id="grid-name-kz" type="text" placeholder="KZ">
+                            </label>
+                            <label class="block mb-2" for="grid-name-ru">
+                                {{ t('main.tableInRu') }}
+                                <input
+                                    v-model="form.name_ru"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    id="grid-name-ru" type="text" placeholder="RU">
+                            </label>
+                            <label class="block mb-2" for="grid-number">
+                                {{ t('main.numberTable') }}
+                                <input
+                                    v-model="form.number"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    id="grid-number" type="text" placeholder="NUM">
+                            </label>
+                        </div>
+                        <div class="basis-3/5">
+                            <div class="text-xl mb-2">{{ t('main.categories') }}</div>
+                            <label :for="'category_'+category.id" v-for="category in categories" :key="category.id"
+                                   class="flex items-center border mb-2 p-1">
+                                <input
+                                    :id="'category_'+category.id"
+                                    :name="category.id"
+                                    type="checkbox"
+                                    :value="category.id"
+                                    v-model="form.selectedCategories"
+                                    class="mr-2"
+                                />
+                                {{ localizedCategoryName(category) }}
+                            </label>
+                        </div>
                     </div>
                     <div class="p-3 mt-2 text-center space-x-4 md:block">
                         <button
