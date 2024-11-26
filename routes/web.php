@@ -7,7 +7,8 @@ Route::get('/', function () {
 });
 Route::get('/terminal', [\App\Http\Controllers\GuestController::class, 'terminal'])->name('terminal');
 Route::get('/monitoring', [\App\Http\Controllers\GuestController::class, 'monitoring'])->name('monitoring');
-Route::get('/ticket/{categoryId}/{locale}', [\App\Http\Controllers\TicketController::class, 'show'])->name('digitalTicket');
+Route::get('/ticket/{categoryId}/{locale}', [\App\Http\Controllers\TicketController::class, 'create'])->name('digitalTicket-create');
+Route::get('/digital-ticket/{ticketId}', [\App\Http\Controllers\TicketController::class, 'show'])->name('digitalTicket-show');
 
 
 Route::middleware([

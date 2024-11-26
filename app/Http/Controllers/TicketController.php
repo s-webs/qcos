@@ -8,16 +8,17 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function show($categoryId, $locale)
+    public function create($categoryId, $locale)
     {
         $category = Category::query()->findOrFail($categoryId);
         $ticket = Ticket::createTicket($category->id);
 
-        dd($categoryId, $locale, $ticket);
+        return redirect()->to(route('digitalTicket-show', $ticket->id));
+    }
 
-        return inertia('Queue/QR', [
-            'ticket' => $ticket,
-            'category' => $category,
-        ]);
+    public function show($ticketId)
+    {
+        $ticket = Ticket::query()->findOrFail($ticketId);
+        dd($ticket);
     }
 }
