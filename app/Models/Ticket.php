@@ -16,11 +16,10 @@ class Ticket extends Model
         'ticket_number'
     ];
 
-    public static function generateTicketNumber($categoryId)
+    public static function generateTicketNumber()
     {
         $today = Carbon::today();
-        $lastTicket = self::where('category_id', $categoryId)
-            ->whereDate('created_date', $today)
+        $lastTicket = self::whereDate('created_date', $today)
             ->orderBy('ticket_number', 'desc')
             ->first();
 
