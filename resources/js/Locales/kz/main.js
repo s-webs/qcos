@@ -3,11 +3,13 @@ export default {
     edit: 'Өңдеу',
     delete: 'Жою',
     cancel: 'Бас тарту',
+    close: 'Жабу',
 
     udnCos: 'ХДУ СҚКО',
 
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Мобильді құрылғыда санатты таңдау үшін сканерлеңіз',
+    ticketScan: 'Сандық талонды алу үшін QR кодын сканерлеңіз',
 
     // ADMIN SIDEBAR MENU
     dashboard: 'Басқару тақтасы',

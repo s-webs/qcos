@@ -69,7 +69,7 @@ const unAssignTable = (tableId) => {
                      <span>1</span>
                  </div>
                  <div class="text-lg text-center">
-                     <span>Заявка на потупление</span>
+                     <span>Заявка на поступление</span>
                  </div>
              </div>
          </div>

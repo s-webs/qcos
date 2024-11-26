@@ -3,11 +3,13 @@ export default {
     edit: 'Редактировать',
     delete: 'Удалить',
     cancel: 'Отмена',
+    close: 'Закрыть',
 
     udnCos: 'УДН ЦОС',
 
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Отсканируйте для выбора категории на мобильном устройстве',
+    ticketScan: 'Отсканируйте QR код, чтобы получить цифровой талон',
 
     // SIDEBAR MENU
     dashboard: 'Панель управления',
