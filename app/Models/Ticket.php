@@ -13,7 +13,6 @@ class Ticket extends Model
         'status',
         'assigned_table_id',
         'created_date',
-        'created_date',
         'ticket_number'
     ];
 
