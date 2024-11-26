@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TicketController extends Controller
 {
@@ -13,12 +14,13 @@ class TicketController extends Controller
         $category = Category::query()->findOrFail($categoryId);
         $ticket = Ticket::createTicket($category->id);
 
-        return redirect()->to(route('digitalTicket-show', $ticket->id));
+        return redirect()->to(route('digitalTicket-show', [$ticket->id, $locale]));
     }
 
-    public function show($ticketId)
+    public function show($ticketId, $locale)
     {
         $ticket = Ticket::query()->findOrFail($ticketId);
-        dd($ticket);
+        $category = Category::query()->findOrFail($ticket->category_id);
+        return Inertia::render('Guest/Ticket', compact('ticket', 'locale', 'category'));
     }
 }

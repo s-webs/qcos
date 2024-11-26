@@ -4,6 +4,7 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 import {useI18n} from 'vue-i18n';
 import {ref} from "vue";
 import TicketQrCode from "@/Components/TicketQrCode.vue";
+import QRCode from 'qrcode.vue';
 
 const {t, locale} = useI18n();
 
@@ -63,7 +64,7 @@ const closeModal = () => {
             </div>
             <div class="basis-2/6 content-center bg-white/60 rounded-lg box-border p-4">
                 <div class="flex justify-center">
-                    <img class="h-64" src="/images/qr_test.png" alt="">
+                    <QRCode :value="route('mobileCategories')" :size="256" />
                 </div>
                 <div class="text-center box-border mt-8">
                     <span class="text-2xl font-bold">{{ t('main.welcomeScan') }}</span>

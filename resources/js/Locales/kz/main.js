@@ -44,4 +44,10 @@ export default {
     tableInRu: 'Орыс тіліндегі үстел атауы',
     listTables: 'Кестелер тізімі',
     numberTable: 'Үстел нөмірі',
+
+    // TICKET
+    waiting: 'Күте тұрыңыз',
+    expected: 'Сізді күтеді',
+    complete: 'Дайын',
+    rejected: 'Қабылданбады',
 }

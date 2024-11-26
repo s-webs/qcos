@@ -18,4 +18,10 @@ class GuestController extends Controller
     {
         return Inertia::render('Guest/Monitoring');
     }
+
+    public function mobileCategories()
+    {
+        $categories = Category::all();
+        return Inertia::render('Guest/MobileCategories', compact('categories'));
+    }
 }

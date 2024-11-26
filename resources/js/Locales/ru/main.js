@@ -45,4 +45,10 @@ export default {
     tableInRu: 'Название стола на русском',
     listTables: 'Список столов',
     numberTable: 'Номер стола',
+
+    // TICKET
+    waiting: 'Ожидайте',
+    expected: 'Вас ожидают',
+    complete: 'Готово',
+    rejected: 'Отклонен',
 }
