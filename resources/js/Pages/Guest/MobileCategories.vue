@@ -1,5 +1,5 @@
 <script setup>
-import {Head} from "@inertiajs/vue3";
+import {Head, Link, router} from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import {useI18n} from 'vue-i18n';
 
@@ -17,12 +17,13 @@ const props = defineProps({
 <template>
     <Head title="Электронная очередь"></Head>
     <GuestLayout>
-            <div class="basis-2/3 grid grid-cols-1 cursor-pointer gap-4 rounded-lg h-full overflow-y-auto text-lg font-medium">
-                <div v-for="category in categories"
-                     class="bg-white/60  h-48 p-4 rounded-lg content-center text-center">
-                    {{ localizedCategoryName(category) }}
-                </div>
-            </div>
+        <div
+            class="basis-2/3 grid grid-cols-1 cursor-pointer gap-4 rounded-lg h-full overflow-y-auto text-lg font-medium">
+            <Link :href="route('digitalTicket-create', [category.id, locale])" v-for="category in categories"
+                  class="bg-white/60  h-48 p-4 rounded-lg content-center text-center">
+                {{ localizedCategoryName(category) }}
+            </Link>
+        </div>
     </GuestLayout>
 </template>
 

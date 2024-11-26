@@ -7,8 +7,11 @@ const {t, locale} = useI18n();
 
 const props = defineProps({
     ticket: Object,
-    category: Object
+    category: Object,
+    locale: String
 })
+
+locale.value = props.locale
 
 const localizedCategoryName = (category) => {
     return category[`name_${locale.value}`] || category.name_ru;
