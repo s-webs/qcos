@@ -4,6 +4,8 @@ export default {
     delete: 'Удалить',
     cancel: 'Отмена',
 
+    udnCos: 'УДН ЦОС',
+
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Отсканируйте для выбора категории на мобильном устройстве',
 

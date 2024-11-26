@@ -4,6 +4,8 @@ export default {
     delete: 'Жою',
     cancel: 'Бас тарту',
 
+    udnCos: 'ХДУ СҚКО',
+
     // GUEST TERMINAL SCREEN
     welcomeScan: 'Мобильді құрылғыда санатты таңдау үшін сканерлеңіз',
 

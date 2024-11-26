@@ -1,16 +1,28 @@
 <script setup>
-import {Link, router} from "@inertiajs/vue3";
+import {Link, router, usePage} from "@inertiajs/vue3";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {useI18n} from 'vue-i18n';
 import {computed} from "vue";
 
 const {t, locale} = useI18n();
 
+const page = usePage();
+const user = page.props.auth?.user || null;
+console.log(user)
+
 const languages = {
     kz: 'KZ',
     ru: 'RU'
 };
 const currentLanguage = computed(() => locale.value);
+
+const logout = () => {
+    router.post(route('logout'), {}, {
+        onSuccess: () => {
+            router.get(route('login'));
+        }
+    });
+};
 
 const changeLanguage = (lang) => {
     locale.value = lang;
@@ -64,17 +76,26 @@ if (localStorage.getItem('language')) {
             </div>
         </div>
         <div class="box-border p-4 w-full flex flex-col h-full">
-            <div class="bg-slate-600 flex flex-row justify-between p-4 rounded-lg">
+            <div class="bg-slate-600 flex flex-row items-center justify-between p-4 rounded-lg">
                 <div class="flex flex-row gap-4">
                     <button v-for="(lang, key) in languages" @click="changeLanguage(key)"
                         class="bg-slate-500 hover:bg-slate-400 text-center content-center w-8 h-8 rounded-sm text-white">
                         {{ lang }}
                     </button>
                 </div>
-                <button
-                    class="bg-slate-500 hover:bg-slate-400 text-center content-center px-4 h-8 rounded-sm text-white">
-                    {{ t('main.exit') }}
-                </button>
+                <div class="text-xl font-bold text-white flex items-center gap-2">
+                    <img class="w-9 mx-auto" src="/images/logo.webp" alt=""> {{ t('main.udnCos') }}
+                </div>
+                <div class="flex flex-row items-center gap-4">
+                    <div class="text-lg text-white">
+                        {{ user.name}}
+                    </div>
+                    <button
+                        @click.prevent="logout"
+                        class="bg-slate-500 hover:bg-slate-400 text-center content-center px-4 h-8 rounded-sm text-white">
+                        {{ t('main.exit') }}
+                    </button>
+                </div>
             </div>
             <div class="bg-white w-full flex-1 overflow-y-auto rounded-lg box-border p-4 mt-4">
                 <slot/>
