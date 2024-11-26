@@ -23,4 +23,6 @@ Route::middleware([
     Route::post('tables', [\App\Http\Controllers\AdminController::class, 'createTable'])->name('createTable');
     Route::delete('tables/{id}/delete', [\App\Http\Controllers\AdminController::class, 'deleteTable'])->name('deleteTable');
     Route::patch('table/{id}/update', [\App\Http\Controllers\AdminController::class, 'updateTable'])->name('updateTable');
+    Route::post('table/{id}/assign', [\App\Http\Controllers\AdminController::class, 'assignTable'])->name('tables.assign');
+    Route::post('table/unAssignTable', [\App\Http\Controllers\AdminController::class, 'unAssignTable'])->name('tables.unAssign');
 });

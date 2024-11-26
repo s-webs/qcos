@@ -18,4 +18,10 @@ class Table extends Model
     {
         return $this->belongsToMany(Category::class, 'category_table', 'table_id', 'category_id');
     }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_table')
+            ->withTimestamps();
+    }
 }

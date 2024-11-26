@@ -26,6 +26,8 @@ export default {
 
     selectionTable: 'Выбор стола',
     selectTable: 'Выбрать стол',
+    selectedTable: 'Стол выбран',
+    linkedCategories: 'Привязанные категории',
 
     // ADMIN CATEGORY SCREEN
     creatingCategory: 'Создание новой категории',

@@ -25,6 +25,8 @@ export default {
     closeQueue: 'Кезекті жабу',
     selectionTable: 'Үстел таңдау',
     selectTable: 'Үстелді таңдаңыз',
+    selectedTable: 'Кесте таңдалды',
+    linkedCategories: 'Байланысты санаттар',
 
     // ADMIN CATEGORY SCREEN
     creatingCategory: 'Жаңа санатты құру',

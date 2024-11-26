@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Table;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,8 +13,41 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $tables = Table::all();
-        return Inertia::render('Admin/Dashboard', compact('tables'));
+        $user = Auth::user();
+        $selectedTableId = $user->table->first() ? $user->table->first()->id : null;
+        $tables = Table::with('categories')
+            ->get()
+            ->map(function ($table) {
+                $table->isOccupied = $table->user()->exists();
+                return $table;
+            });
+        return Inertia::render('Admin/Dashboard', compact('tables', 'selectedTableId'));
+    }
+
+    public function assignTable(Request $request, $tableId)
+    {
+        $user = User::query()->findOrFail($request->user);
+        $table = Table::query()->findOrFail($tableId);
+
+        if (!$user || !$table) {
+            return response()->json(['error' => 'Таблица или пользователь не найдены'], 404);
+        }
+
+        if ($user->table()->exists()) {
+            $user->table()->detach();
+        }
+
+        return $user->table()->attach($tableId);
+    }
+
+    public function unAssignTable(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user->table()->exists()) {
+            return response()->json(['error' => 'User does not have a table assigned'], 400);
+        }
+        $user->table()->detach();
     }
 
     public function category()
@@ -54,8 +89,13 @@ class AdminController extends Controller
     {
         $categories = Category::all();
         $tables = Table::query()->orderBy('number', 'asc')->get();
-        $selectedCategories = $tables->first()?->categories->pluck('id')->toArray() ?? [];
-        dd($selectedCategories);
+
+        // Получаем связанные категории для каждой таблицы
+        $tables = $tables->map(function ($table) {
+            $table->selectedCategories = $table->categories->pluck('id')->toArray();
+            return $table;
+        });
+
         return Inertia::render('Admin/Tables', compact('tables', 'categories'));
     }
 
@@ -83,6 +123,10 @@ class AdminController extends Controller
         $table->name_ru = $request->name_ru;
         $table->number = $request->number;
         $table->save();
+
+        if ($request->has('selectedCategories')) {
+            $table->categories()->sync($request->selectedCategories);
+        }
 
         return redirect()->back()->with('message', 'Стол успешно обновлен!');
     }

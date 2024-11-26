@@ -100,6 +100,7 @@ const handleModalEditClose = () => {
         @accept="handleModalEdit"
         @close="handleModalEditClose"
     />
+
     <AdminLayout>
         <div class="flex flex-col h-full">
             <div>

@@ -1,16 +1,46 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {Head, useForm} from "@inertiajs/vue3";
+import {Head, router, useForm, usePage} from "@inertiajs/vue3";
 import {useI18n} from "vue-i18n";
+import {computed, ref} from "vue";
 
 const {t, locale} = useI18n();
 
+const page = usePage();
+const user = page.props.auth?.user || null;
+
 const props = defineProps({
-    tables: Array
+    tables: Array,
+    selectedTableId: Number,
 })
 
 const localizedTableName = (table) => {
     return table[`name_${locale.value}`] || table.name_ru;
+};
+
+const selectedTable = ref(props.selectedTableId);
+const selectTable = (tableId) => {
+    if (selectedTable.value !== tableId) {
+        selectedTable.value = tableId;
+
+        router.post(route('tables.assign', tableId), { table: tableId, user: user.id }, {
+            onSuccess: () => {
+            },
+            onError: () => {
+                alert('Произошла ошибка при привязке стола.');
+            }
+        });
+    }
+};
+const unAssignTable = (tableId) => {
+    router.post(route('tables.unAssign'), { table: tableId }, {
+        onSuccess: () => {
+            selectedTable.value = null;
+        },
+        onError: () => {
+            alert('Произошла ошибка при отвязке стола.');
+        }
+    });
 };
 </script>
 
@@ -57,12 +87,42 @@ const localizedTableName = (table) => {
          <span class="text-2xl">{{ t('main.selectionTable') }}</span>
      </div>
      <div class="grid grid-cols-5 gap-4">
-         <div v-for="table in tables" :key="table.id" class="p-4 box-border rounded-lg bg-gray-100 border">
-             <div class="text-2xl text-center">
-             <span>{{ localizedTableName(table) }}</span>
+         <div v-for="table in tables" :key="table.id" class="p-4 box-border rounded-lg bg-gray-100 border flex flex-col h-full">
+             <div class="flex-1">
+                 <div class="text-center">
+                     <span class="text-2xl text-center font-bold">{{ localizedTableName(table) }}</span>
+                 </div>
+                 <div class="mt-4">
+                     <div class="text-center">
+                         <span class="font-bold text-lg">Привязанные категории</span>
+                     </div>
+                     <ul class="text-sm text-left mt-2">
+                         <li class="mb-2" v-for="(category, index) in table.categories" :key="category.id">
+                             {{ index + 1 }}. {{ localizedTableName(category) }}
+                         </li>
+                     </ul>
+                 </div>
              </div>
              <div class="text-lg text-center box-border mt-8">
-                 <button class="bg-green-600 hover:bg-green-700 px-4 py-2 box-border rounded-lg text-white">{{ t('main.selectTable') }}</button>
+                 <button
+                     v-if="selectedTable !== table.id"
+                     @click="selectTable(table.id)"
+                     :class="{
+                            'bg-gray-400': selectedTable === table.id || table.isOccupied,
+                            'bg-green-600 hover:bg-green-700': selectedTable !== table.id && !table.isOccupied
+                        }"
+                     :disabled="selectedTable === table.id || table.isOccupied"
+                     class="px-4 py-2 box-border rounded-lg text-white"
+                 >
+                     {{ selectedTable === table.id ? 'Стол привязан' : table.isOccupied ? 'Стол занят' : 'Выбрать стол' }}
+                 </button>
+                 <button
+                     v-if="selectedTable === table.id"
+                     @click="unAssignTable(table.id)"
+                     class="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
+                 >
+                     Отвязать стол
+                 </button>
              </div>
          </div>
      </div>

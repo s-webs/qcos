@@ -30,28 +30,22 @@ const form = useForm({
 // Обновляем форму при изменении props.table
 watch(
     () => props.table,
-    (newtable) => {
-        if (newtable) {
-            form.name_kz = newtable.name_kz;
-            form.name_ru = newtable.name_ru;
-            form.number = newtable.number;
+    (newTable) => {
+        if (newTable) {
+            form.name_kz = newTable.name_kz;
+            form.name_ru = newTable.name_ru;
+            form.number = newTable.number;
+
+            // Обновляем выбранные категории
+            form.selectedCategories = newTable.categories ? newTable.categories.map(category => category.id) : [];
         }
     },
-    {immediate: true} // Обновляем форму сразу после загрузки
-);
-
-// Синхронизация выбранных категорий с формой
-watch(
-    () => props.selectedCategories,
-    (newSelectedCategories) => {
-        form.selectedCategories = [...newSelectedCategories];
-    },
-    { immediate: true } // Обновляем локальное состояние при инициализации
+    { immediate: true }
 );
 
 
 const onAccept = () => {
-    emit('accept', {...form, categories: form.selectedCategories}); // Передаём форму в событии
+    emit('accept', {...form, categories: form.selectedCategories});
     emit('close');
 };
 

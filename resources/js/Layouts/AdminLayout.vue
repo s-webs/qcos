@@ -8,7 +8,6 @@ const {t, locale} = useI18n();
 
 const page = usePage();
 const user = page.props.auth?.user || null;
-console.log(user)
 
 const languages = {
     kz: 'KZ',
@@ -39,7 +38,10 @@ if (localStorage.getItem('language')) {
         <div class="h-full w-72 box-border p-4">
             <div class="bg-slate-600 h-full w-full rounded-lg">
                 <div class="text-center box-border py-4">
-                    <span class="text-2xl text-white">QCOS</span>
+                    <span class="">
+                        <img class="w-14 mx-auto mb-2" src="/images/logo.webp" alt="">
+                        <span class="text-2xl text-white font-bold">{{ t('main.udnCos') }}</span>
+                    </span>
                 </div>
                 <div class="px-4 flex flex-col gap-4">
                     <Link
@@ -82,9 +84,6 @@ if (localStorage.getItem('language')) {
                         class="bg-slate-500 hover:bg-slate-400 text-center content-center w-8 h-8 rounded-sm text-white">
                         {{ lang }}
                     </button>
-                </div>
-                <div class="text-xl font-bold text-white flex items-center gap-2">
-                    <img class="w-9 mx-auto" src="/images/logo.webp" alt=""> {{ t('main.udnCos') }}
                 </div>
                 <div class="flex flex-row items-center gap-4">
                     <div class="text-lg text-white">
